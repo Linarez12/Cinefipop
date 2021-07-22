@@ -5,12 +5,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<link rel="icon" type="image/x-icon" href="https://moviepop5.ga/cinefipop-logo.png" />	
+<link rel="icon" type="image/x-icon" href="https://moviepop5.ga/cinefipop-logo.png"/>	
 <title>Cinefipop</title>
 <!-- Bootstrap -->
-<link rel="stylesheet" href="https://linarez12.github.io/Css/app/bootstrap.min.css">
-<link rel="stylesheet" href="https://linarez12.github.io/Css/app/style.css">
-<script src="https://linarez12.github.io/Css/app/font-awesome.js"></script>
+<link rel="stylesheet" href="https://linarez12.github.io/Css/app2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://linarez12.github.io/Css/app2/css/style.css">
+<link rel="stylesheet" href="https://linarez12.github.io/Css/app2/css/fontawesome-pro.css">
+<script src="https://linarez12.github.io/Css/app2/js/jquery-1.11.3.min.js"></script>
+<link rel="stylesheet" href="https://linarez12.github.io/Css/app2/css/estilo.css">
+<script src="https://linarez12.github.io/Css/app2/js/jquery.js"></script>
+<script src="https://linarez12.github.io/Css/app2/js/jquery.dataTables.min.js"></script>
 </head>
 <body class="dark-mode">
 <div class="container-fluid">
@@ -21,14 +25,14 @@
 <div class="nav-bar-container">
 <nav class="navbar bg-light left-navbar"  >
 <ul class="navbar-nav">
-<a class="btn  btn-subscription"><i class="fas fa-star"></i> Bienvenid@ </a>
-<li class="nav-item active"><a class="nav-link" href="#"><i class="fas fa-film"></i>  Peliculas</a></li class="nav-item">
-<li class="nav-item"><a class="nav-link" href="/Home/Series.html"><i class="fas fa-tv"></i> Series</a></li class="nav-item">
-<li class="nav-item"><a class="nav-link" href="#" target="_blank"><i class="fas fa-headset"></i> Soporte Técnico</a></li class="nav-item">
-<li class="nav-item"><a class="nav-link" href="/Home/DMCA.html"><i class="fas fa-lock"></i> D M C A</a></li class="nav-item">
-<li class="nav-item"><a class="nav-link" href="/Home/Politica-de-privacidad.html"><i class="fas fa-lock"></i> Política de privacidad</a></li class="nav-item">
+<a class="btn  btn-subscription"><i class="fas fa-star"></i> Bienvenid@ a Cinefipop</a>
+<li class="nav-item active"><a  class="nav-link" href="../Home/index.html"> <i class="fas fa-film"></i> Peliculas</a></li class="nav-item">
+<li class="nav-item"><a class="nav-link" href="../Series/serieshome.html"><i class="fas fa-tv-retro"></i> Series</a></li class="nav-item">
+<li class="nav-item"><a class="nav-link" href="http://action_offices" target="_blank"><i class="fa fa-user-headset"></i> Soporte Técnico</a></li class="nav-item">
 <li class="nav-item"><a class="nav-link" href="intent://t.me/joinchat/yH6YIQKVB4k0MDUx
 #Intent;package=org.telegram.messenger;scheme=https;end"><i class="fab fa-telegram-plane"></i> Telegram</a></li class="nav-item">
+<li class="nav-item"><a class="nav-link" href="go:DMCA"><i class="fas fa-lock"></i> D M C A</a></li class="nav-item">
+<li class="nav-item"><a class="nav-link" href="https://www.e-droid.net/privacy.php?ida=1490228&idl=es"><i class="fas fa-lock"></i> Política de privacidad</a></li class="nav-item">
 </ul></nav></div></div>
 <div class="close-menu-left-btn"></div>
 <div class="main">
@@ -41,19 +45,36 @@
 <div class="dropdown-menu dropdown-login">
 <a class="dropdown-item" href="http://action_exit"><i class="fas fa-sign-out-alt"></i> Salir</a>
 </div></div>
-<button class="btn btn-primary float-right search-btn"> <a href="go:buscador"> <i class="fas fa-search"></i></a></button></div>
+<button class="btn btn-primary float-right search-btn"> <a href="../Buscador/buscador.html"> <i class="fas fa-search"></i></a></button></div>
 <div class="row top-nav">
 <div class="col-sm-3 col-md-3 " >
 <div class="tab-title">Estrenos</div>
 </div>
-<!-- Buscador -->
-
+<!---Inicio del Buscador Interno--->
+<div class="col-sm-6 col-md-6 search-form" >
+<input type="search" id="input-search" placeholder="Buscar aqui">
+<div class="content-search">
+<div class="content-table">
+<table id="table">
+<thead><tr><td></td></tr>
+</thead><tbody>
+<tr><td><a href="#"></a></td></tr>
+<tr><td><a href="#"></a></td></tr>
+<tr><td><a href="#"></a></td></tr>
+<tr><td><a href="#"></a></td></tr>
+<!---Copia esto para la siguiente Busqueda--->
+<tr><td><a href="#"></a></td></tr>
+<!---Pega aqui el codigo del Buscador para una nueva Busqueda--->
+<!---No tocar esto--->
+</tbody></table></div></div>
+<!---fin del Buscador Interno--->
+<button class="btn btn-primary float-right for-phone search-btn-close"><i class="fas fa-times"></i></button></div>
 <div class="col-sm-3 col-md-3 account-action for-desktop">
 <div class="float-right">
-<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="for-desktop"> Cinefipop </span> 
-<img src="/Perfil1.jpg"></button>
+<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="for-desktop"> Megaplay </span> 
+<img src="https://moviepop5.ga/cinefipop-logo.png"></button>
 <div class="dropdown-menu dropdown-login">
-<a class="dropdown-item" href="https://action_exit"><i class="fas fa-sign-out-alt"></i> Salir</a>
+<a class="dropdown-item" href="http://action_exit"><i class="fas fa-sign-out-alt"></i> Salir</a>
 </div></div></div></div>
 <!---Slider tipo Portada--->
 <div class="content">
@@ -69,7 +90,7 @@
 <div class="carousel-item active">
 <div class="col-xxl-5 col-lg-8 col-md-12">
 <img height="400" width="640" class="img-fluid" src="https://1.bp.blogspot.com/-t-96myG2huE/YNUAEWDn1wI/AAAAAAAABRI/GcouUhaYg0ADpFuMcsitZGeZpBfw6H1YQCLcBGAsYHQ/s16000/20210624_155642_0000.png">
-<a href="../Peliculas/Animacion/luca/luca.html" class="carousel-detail"><div>
+<a href="../Peliculas/Animacion/luca.html" class="carousel-detail"><div>
 <h3>Luca</h3>
 </div>
 </a>
@@ -77,108 +98,145 @@
 <!---Copia esto para el siguiente Slider tipo Portada--->
 <div class="carousel-item">
 <div class="col-xxl-5 col-lg-8 col-md-12">
-<img height="400" width="640" class="img-fluid" src="https://1.bp.blogspot.com/-Wo0EKTe4kco/YL2PPNrDPZI/AAAAAAAABPY/K8Cur-jmOGoryYEXlrB0vgqAWAVee88twCLcBGAsYHQ/s16000/20210606_211431_0000.png">
-<a href="../Peliculas/Terror/el-conjuro-3/el-conjuro-3.html" class="carousel-detail"><div>
-<h3>El Conjuro 3</h3>
-</div>
-</a>
-</div></div>
-<!-- Copia Esto Para El Siguiente Slider Tipo Portada-->
-<div class="carousel-item">
-<div class="col-xxl-5 col-lg-8 col-md-12">
-<img height="400" width="640" class="img-fluid" src="https://1.bp.blogspot.com/-hPRAj1M16OM/YJiJtf-iW8I/AAAAAAAABKU/r2Ksdg5m8GMyPjxWxF1nubG3zAhLNaKXACLcBGAsYHQ/s16000/20210509_191502_0000.png">
-<a href="../Peliculas/Animacion/la-familia-mitchell-vs-las-maquinas/la-familia-mitchell-vs-las-maquinas.html" class="carousel-detail"><div>
-<h3>La Familia Mitchell Vs Las Maquinas</h3></div></a></div></div>
-<!---Pega aqui el codigo del Slider tipo Portada--->
+<img height="400" width="640" class="img-fluid" src="https://www.themoviedb.org/t/p/w500_and_h282_face/eO8h4fwdjWodPr3awVr5wqMN3Ut.jpg">
+<a href="#" class="carousel-detail"><div>
+<h3>Falcon y el Soldado del Invierno</h3></div></a></div></div>
 
+<!---Pega aqui el codigo del Slider tipo Portada--->
 <!---No tocar esto--->
 </div></div></div>
 <!---fin de esta entrada--->
-
-<!---Pega Aqui para crear una nueva categoria---
-
-<!---Slider tipo Poster (Animacion)--->
+<!---Pega Aqui para crear una nueva categoria--->
+<!---Slider tipo Poster--->
 <div class="col-sm-12 col-md-12 ">
-<a href="/Categorias/Accion.html" class="title-more">
-<span>Animacion</span>
+<a href="../Categorias/Animacion.html" class="title-more">
+<span>Animación</span>
 <i class="fa fa-th float-right"></i></a></div>
 <div class="flix-carousel" >
 <button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
 <button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
 <div class="flix-scroll-x">
 <!---Inicio del Slider tipo Poster--->
-<a href="../Peliculas/Animacion/luca/luca.html" title="Luca" class="poster col-4 col-md-2 col-xxl-2"><div>
+<a href="../Peliculas/Animacion/luca.html" title="Luca" class="poster col-4 col-md-2 col-xxl-2"><div>
 <img width="200" height="300" src="https://1.bp.blogspot.com/-6lLJzG-SSv4/YNT_9q_n1SI/AAAAAAAABRE/WrN_9StaPu8ed6-tio70iG4hNJJIdYT3wCLcBGAsYHQ/s16000/20210624_155725_0000.png"/>
 <div>
 </div>
-</div>
-</a>
-<a href="../Peliculas/Animacion/la-familia-mitchell-vs-las-maquinas/la-familia-mitchell-vs-las-maquinas.html" title="La Familia Mitchell vs Las Maquinas" class="poster col-4 col-md-2 col-xxl-2"><div>
+</div></a>
+<a href="#" title="La Familia Mitchell" class="poster col-4 col-md-2 col-xxl-2"><div>
 <img width="200" height="300" src="https://1.bp.blogspot.com/-YnPzfmXp5sw/YJiFVNzv-3I/AAAAAAAABJ0/DHSNK-m2BtMNqHR4Dgw9kLVo8Jh5KK-7ACLcBGAsYHQ/s300/20210509_185622_0000.png"/>
 <div>
 </div>
-</div>
-</a>
-<a href="../Peliculas/Animacion/raya-y-el-ultimo-dragon/raya-y-el-ultimo-dragon.html" title="Raya y el último dragón" class="poster col-4 col-md-2 col-xxl-2"><div>
+</div></a>
+<a href="../Peliculas/Animacion/Raya-y-el-ultimo-dragon.html" title="Raya Y El Último Dragon" class="poster col-4 col-md-2 col-xxl-2"><div>
 <img width="200" height="300" src="https://1.bp.blogspot.com/-bXmRqzq0seA/YKASuWxK49I/AAAAAAAABLY/doPdSW2-ViIB_i1_Wy2CEJTHdpjLU_wxwCLcBGAsYHQ/s300/20210515_122653.jpg"/>
 <div>
 </div>
-</div>
-</a>
-<a href="../Peliculas/Animacion/soul/soul.html" title="Soul" class="poster col-4 col-md-2 col-xxl-2"><div>
+</div></a>
+<a href="../Peliculas/Animacion/Soul.html" title="Soul" class="poster col-4 col-md-2 col-xxl-2"><div>
 <img width="200" height="300" src="https://1.bp.blogspot.com/-flVcFNvrVIU/YJiIL0EnRnI/AAAAAAAABKE/bQ4XitmUUCshdMWm_LjqYhik2x052cTSwCLcBGAsYHQ/s300/20210509_191048_0000.png"/>
 <div>
 </div>
+</div></a>
+<a href="../Peliculas/Animacion/los-croods-1.html" title="Los Croods" class="poster col-4 col-md-2 col-xxl-2"><div>
+<img width="200" height="300" src="https://1.bp.blogspot.com/-XxiFIj19pk8/YLE-0Y-Hs7I/AAAAAAAABNI/9Ml1m4yV7_IN0mJq2aNKpFRa6V9_stejwCLcBGAsYHQ/s300/20210528_125522_0000.png"/>
+<div>
 </div>
-</a>
+</div></a>
+<a href="../Peliculas/Animacion/los-croods-2.html" title="Los Croods 2" class="poster col-4 col-md-2 col-xxl-2"><div>
+<img width="200" height="300" src="https://1.bp.blogspot.com/-vEhrkUSk2Ik/YLFByyGaWvI/AAAAAAAABNU/V8kIeAUDC5QWL_P4Ecgwx6dnZtP60xpHQCLcBGAsYHQ/s300/20210528_131633_0000.png"/><div></div></div></a>
 
 <!---No tocar esto--->
 </div></div>
-<!--Fin De "Animacion"-->
-
-<!--Accion-->
+<!---Slider tipo Poster (Accion)--->
 <div class="col-sm-12 col-md-12 ">
 <a href="../Categorias/Accion.html" class="title-more">
 <span>Acción</span>
-<i class="fa fa-th float-right"></i></a></div>
+<i class="fa fa-th float-right"></i>
+</a>
+</div>
 <div class="flix-carousel" >
 <button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
 <button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
 <div class="flix-scroll-x">
 <!---Inicio del Slider tipo Poster--->
-<a href="../Peliculas/Animacion/luca/luca.html" title="Luca" class="poster col-4 col-md-2 col-xxl-2"><div>
-<img width="200" height="300" src="https://1.bp.blogspot.com/-6lLJzG-SSv4/YNT_9q_n1SI/AAAAAAAABRE/WrN_9StaPu8ed6-tio70iG4hNJJIdYT3wCLcBGAsYHQ/s16000/20210624_155725_0000.png"/>
+<a href="../Peliculas/Accion/kingsman-el-servicio-secreto.html" title="kingsman 1"  class="poster " >
+<div>
+<img width="200" height="300" src="https://1.bp.blogspot.com/-oH-b6ar1LAU/YLKMuy3c7vI/AAAAAAAABOQ/ZhThYUwK-x4DXeCPhsAIAgT24qmK1AwcwCLcBGAsYHQ/s300/20210529_124751_0000.png" />
 <div>
 </div>
 </div>
 </a>
-<a href="../Peliculas/Animacion/la-familia-mitchell-vs-las-maquinas/la-familia-mitchell-vs-las-maquinas.html" title="La Familia Mitchell vs Las Maquinas" class="poster col-4 col-md-2 col-xxl-2"><div>
-<img width="200" height="300" src="https://1.bp.blogspot.com/-YnPzfmXp5sw/YJiFVNzv-3I/AAAAAAAABJ0/DHSNK-m2BtMNqHR4Dgw9kLVo8Jh5KK-7ACLcBGAsYHQ/s300/20210509_185622_0000.png"/>
+<a href="../Peliculas/Accion/kingsman-el-circulo-dorado.html" title="kingsman 2"  class="poster " >
+<div>
+<img width="200" height="300" src="https://1.bp.blogspot.com/-mmNT3wVQ2m8/YLKMu-cHqBI/AAAAAAAABOM/2vZh62xP5_YvV6a4KdetlZ4Vlwia29dgACLcBGAsYHQ/s300/20210529_124751_0001.png" />
 <div>
 </div>
 </div>
 </a>
-<a href="../Peliculas/Animacion/raya-y-el-ultimo-dragon/raya-y-el-ultimo-dragon.html" title="Raya y el último dragón" class="poster col-4 col-md-2 col-xxl-2"><div>
-<img width="200" height="300" src="https://1.bp.blogspot.com/-bXmRqzq0seA/YKASuWxK49I/AAAAAAAABLY/doPdSW2-ViIB_i1_Wy2CEJTHdpjLU_wxwCLcBGAsYHQ/s300/20210515_122653.jpg"/>
+<a href="../Peliculas/Accion/godzilla-vs-kong.html" title="Godzilla vs Kong"  class="poster " >
+<div>
+<img width="200" height="300" src="https://1.bp.blogspot.com/-9s96AW7vriw/YKQ34Vzk4dI/AAAAAAAABLw/xQ7wyJuQUxA8d29dKa0T6RiTplEX5EKVwCLcBGAsYHQ/s300/20210518_155451.jpg" />
 <div>
 </div>
 </div>
 </a>
-<a href="../Peliculas/Animacion/soul/soul.html" title="Soul" class="poster col-4 col-md-2 col-xxl-2"><div>
-<img width="200" height="300" src="https://1.bp.blogspot.com/-flVcFNvrVIU/YJiIL0EnRnI/AAAAAAAABKE/bQ4XitmUUCshdMWm_LjqYhik2x052cTSwCLcBGAsYHQ/s300/20210509_191048_0000.png"/>
+<!---Copia esto para el siguiente Slider tipo Poster--->
+<a href="../Peliculas/Accion/mortal-kombat.html" alt="Mortal Kombat" class="poster " >
+<div>
+<img width="200" height="300" src="https://1.bp.blogspot.com/-YmPEBv4itXY/YKVYSmKXmgI/AAAAAAAABMM/vDjm-YxAd2A33TtQFVgL7zmX31sPZu5HACLcBGAsYHQ/s0/rsz_mortal-kombat-poster-oficial-1-1.jpg" />
 <div>
 </div>
 </div>
 </a>
-
+<!---Pega aqui el codigo del Slider tipo Poster--->
 <!---No tocar esto--->
-</div></div>
-<!--Fin De "Accion"-->
+</div>
+</div>
+<!---fin de Accion--->
+<!---Inicio De Entrada de terror--->
+<div class="col-sm-12 col-md-12 ">
+<a href="../Categorias/Terror.html" class="title-more">
+<span>Terror</span>
+<i class="fa fa-th float-right"></i>
+</a>
+</div>
+<div class="flix-carousel" >
+<button  class="prev_btn"><i class="fa fa-chevron-left"></i></button>
+<button  class="next_btn"><i class="fa fa-chevron-right"></i></button>
+<div class="flix-scroll-x">
+<!---Inicio del Slider tipo Poster--->
+<a href="../Peliculas/Terror/chucky-2019.html" title="Chucky El Muñeco Diabolico 2019"  class="poster " >
+<div>
+<img width="200" height="300" src="https://1.bp.blogspot.com/-BDbHB1iwu38/YMAwzpgPBhI/AAAAAAAABP0/e221ouRosjEpW2aagebROWE-fG2JQJo9gCLcBGAsYHQ/s16000/20210608_210620_0000.png" />
+<div>
+</div>
+</div>
+</a>
+<a href="../Peliculas/Terror/el-conjuro-3.html" title="El Conjuro 3"  class="poster " >
+<div>
+<img width="200" height="300" src="https://1.bp.blogspot.com/-me2hXnq3ioI/YL0_IqHs8jI/AAAAAAAABPQ/DQ4lCL_OVtM4o3aPq8_LaX083MYXd76iwCLcBGAsYHQ/s16000/20210606_153245_0000.png" />
+<div>
+</div>
+</div>
+</a>
+<!---Pega aqui el codigo del Slider tipo Poster--->
+<!---No tocar esto--->
+</div>
+</div>
+<!---fin de esta entrada--->
+<!---Pega Aqui para crear una nueva categoria--->
+
+
+
+
+
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://linarez12.github.io/Css/app/jquery.min.js"></script>
-<script src="https://linarez12.github.io/Css/app/popper.min.js"></script>
-<script src="https://linarez12.github.io/Css/app/bootstrap.min.js"></script>
-<script src="https://linarez12.github.io/Css/app/app.js"></script>
+<script src="https://linarez12.github.io/Css/app2/js/jquery.min.js"></script>
+<script src="https://linarez12.github.io/Css/app2/js/popper.min.js"></script>
+<script src="https://linarez12.github.io/Css/app2/js/bootstrap.min.js"></script>
+<script src="https://linarez12.github.io/Css/app2/js/app.js"></script>
+<script src="https://linarez12.github.io/Css/app2/js/buscador.js"></script>
+<script src="https://linarez12.github.io/Css/app2/js/swiper-bundle.min.js"></script>
 </body>
 </html>
