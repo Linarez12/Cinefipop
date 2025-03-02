@@ -19,7 +19,7 @@
                 return;
             }
             let encodedUrl = btoa(url); // Codifica en Base64
-            let fullLink = window.location.origin + "/viewer.html?video=" + encodedUrl;
+            let fullLink = window.location.origin + "/Cinefipop/viewer.html?video=" + encodedUrl;
             document.getElementById('generatedLink').innerHTML = `<a href="${fullLink}" target="_blank">Abrir visor</a>`;
         }
     </script>
