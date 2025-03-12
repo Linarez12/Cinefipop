@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reproductor de Video</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <video id="player" controls width="640" height="360"></video>
+    <script>
+        fetch('get_video_url.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const video = document.getElementById('player');
+                    const videoSrc = data.url;
+
+                    if (Hls.isSupported()) {
+                        const hls = new Hls();
+                        hls.loadSource(videoSrc);
+                        hls.attachMedia(video);
+                        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+                    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                        video.src = videoSrc;
+                        video.play();
+                    } else {
+                        console.error('HLS no soportado en este navegador');
+                    }
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => console.error('Error al obtener la URL:', error));
+    </script>
+</body>
+</html>
