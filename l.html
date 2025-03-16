@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de contenido sin anuncios</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        #content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .header {
+            background-color: #0a0a0a;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+        </div>
+        <iframe id="content-frame" src="about:blank" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        // Esperar a que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.getElementById('content-frame');
+            
+            // Cargar el iframe
+            iframe.onload = function() {
+                // Acceder al documento dentro del iframe
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                
+                // Inyectar nuestro bloqueador de anuncios en el iframe
+                const script = iframeDoc.createElement('script');
+                script.textContent = `
+                // Bloqueador de anuncios para HLSFlex
+                (function() {
+                    'use strict';
+
+                    // Función principal que se ejecuta cuando se carga la página
+                    function bloquearAnuncios() {
+                        console.log("Bloqueador de anuncios para HLSFlex ejecutándose...");
+
+                        // Elementos comunes de publicidad para eliminar
+                        const selectoresDeAnuncios = [
+                            '.ad-container',
+                            '.advertisement',
+                            '.banner-ad',
+                            '.video-ad',
+                            '.popup-overlay',
+                            'div[id*="ad"]',
+                            'div[class*="ad-"]',
+                            'iframe[src*="ad"]',
+                            'ins.adsbygoogle'
+                        ];
+
+                        // Eliminar anuncios existentes
+                        function eliminarAnuncios() {
+                            selectoresDeAnuncios.forEach(selector => {
+                                const elementos = document.querySelectorAll(selector);
+                                elementos.forEach(elemento => {
+                                    elemento.remove();
+                                });
+                            });
+
+                            // Eliminar iframes que suelen contener anuncios
+                            const iframes = document.querySelectorAll('iframe:not([src*="hlsflex"])');
+                            iframes.forEach(iframe => {
+                                iframe.remove();
+                            });
+
+                            // Eliminar ventanas emergentes
+                            const popups = document.querySelectorAll('.popup, .modal, .overlay');
+                            popups.forEach(popup => {
+                                popup.remove();
+                            });
+                            
+                            // También eliminar cualquier elemento con z-index muy alto (posibles popups)
+                            document.querySelectorAll('*').forEach(el => {
+                                const style = window.getComputedStyle(el);
+                                if (parseInt(style.zIndex) > 9000) {
+                                    el.remove();
+                                }
+                            });
+                        }
+
+                        // Ejecutar inmediatamente y luego cada segundo
+                        eliminarAnuncios();
+                        setInterval(eliminarAnuncios, 1000);
+
+                        // Observador de mutaciones para detectar y eliminar anuncios nuevos
+                        const observador = new MutationObserver(mutations => {
+                            mutations.forEach(mutation => {
+                                if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+                                    eliminarAnuncios();
+                                }
+                            });
+                        });
+
+                        // Iniciar el observador para el documento completo
+                        observador.observe(document.documentElement, {
+                            childList: true,
+                            subtree: true
+                        });
+
+                        // Anular las funciones de detección de bloqueadores de anuncios
+                        window.canRunAds = true;
+                        window.adBlockEnabled = false;
+                    }
+
+                    // Ejecutar cuando el DOM esté listo
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', bloquearAnuncios);
+                    } else {
+                        bloquearAnuncios();
+                    }
+                    
+                    // También ejecutarlo cuando la página termine de cargar
+                    window.addEventListener('load', bloquearAnuncios);
+                })();
+                `;
+                
+                iframeDoc.head.appendChild(script);
+            };
+            
+            // Establecer el src del iframe (esto carga la página)
+            iframe.src = "https://hlsflex.com/e/2u5ldvh0be2f";
+        });
+    </script>
+</body>
+</html>
