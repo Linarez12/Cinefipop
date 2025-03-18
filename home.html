@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFull - Todas las funciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        .subtitle {
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: normal;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .tool-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-color: #f0f7ff;
+        }
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1e88e5;
+        }
+        .tool-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .tool-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PDFull</h1>
+        <p class="subtitle">Todas las funciones para trabajar con archivos PDF</p>
+    </header>
+    
+    <div class="container">
+        <div class="tools-grid">
+            <a href="unirpdf.html" class="tool-card">
+                <div class="tool-icon">📄</div>
+                <div class="tool-title">Unir PDF</div>
+                <div class="tool-description">Combina varios archivos PDF en uno solo</div>
+            </a>
+            
+            <a href="dividirpdf.html" class="tool-card">
+                <div class="tool-icon">✂️</div>
+                <div class="tool-title">Dividir PDF por rangos</div>
+                <div class="tool-description">Divide un PDF configurandolo por rangos</div>
+            </a>
+            <a href="extraerpagpdf.html" class="tool-card">
+                <div class="tool-icon">🔍</div>
+                <div class="tool-title">Extraer páginas</div>
+                <div class="tool-description">Extrae páginas específicas de un PDF</div>
+            </a>
+            
+            <a href="imagenapdf.html" class="tool-card">
+                <div class="tool-icon">🖼️</div>
+                <div class="tool-title"> Imagenes a PDF</div>
+                <div class="tool-description">Convierte PDF a imágenes JPG</div>
+            </a>
+            
+            <a href="pdfaimagen.html" class="tool-card">
+                <div class="tool-icon">📁</div>
+                <div class="tool-title">PDF a Imagenes</div>
+                <div class="tool-description">Extrae texto de archivos PDF</div>
+            </a>
+            <a href="#" class="tool-card">
+                <div class="tool-icon">🛠️</div>
+                <div class="tool-title">Próximamente</div>
+                <div class="tool-description">Más adelante habrán más herramientas para PDF</div>
+            </a>
+
+             
+        </div>
+    </div>
+    
+    <footer>
+        <p>PDFull - Todas las funciones gratuitas en un solo lugar</p>
+    </footer>
+</body>
+</html>
