@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unir PDFs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .dropzone {
+            border: 3px dashed #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            background-color: #fafafa;
+            transition: all 0.3s ease;
+        }
+        .dropzone:hover, .dropzone.dragover {
+            background-color: #f0f8ff;
+            border-color: #4CAF50;
+        }
+        .file-list {
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px;
+            min-height: 50px;
+        }
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin: 5px 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .file-name {
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 10px;
+        }
+        .file-actions {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        button.remove {
+            background-color: #f44336;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        button.remove:hover {
+            background-color: #d32f2f;
+        }
+        button.move {
+            background-color: #2196F3;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        button.move:hover {
+            background-color: #0b7dda;
+        }
+        button.download {
+            background-color: #ff9800;
+        }
+        button.download:hover {
+            background-color: #e68a00;
+        }
+        .instructions {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e7f7e7;
+            border-left: 5px solid #4CAF50;
+            border-radius: 3px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+        .result-container {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #2196F3;
+            border-radius: 3px;
+            text-align: center;
+        }
+        .result-container.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Unir PDFs</h1>
+        
+        <div class="instructions">
+            <p>Selecciona los archivos PDF que deseas unir. Puedes reordenarlos y luego hacer clic en "Unir PDFs" para combinarlos.</p>
+        </div>
+        
+        <div class="dropzone" id="dropzone">
+            <p>Arrastra y suelta archivos PDF aquí o</p>
+            <button id="selectFiles">Seleccionar archivos</button>
+            <input type="file" id="fileInput" multiple accept=".pdf" style="display: none">
+        </div>
+        
+        <div class="file-list" id="fileList">
+            <p id="noFilesMessage">No hay archivos seleccionados</p>
+        </div>
+        
+        <div style="text-align: center;">
+            <button id="mergeButton" disabled>Unir PDFs</button>
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <p>¡PDFs unidos correctamente!</p>
+            <button id="downloadButton" class="download">Descargar PDF</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Esta herramienta procesa los archivos en tu navegador. Ningún archivo se sube a servidores externos.</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+        // Variables globales
+        const fileInput = document.getElementById('fileInput');
+        const selectFilesButton = document.getElementById('selectFiles');
+        const dropzone = document.getElementById('dropzone');
+        const fileList = document.getElementById('fileList');
+        const noFilesMessage = document.getElementById('noFilesMessage');
+        const mergeButton = document.getElementById('mergeButton');
+        const resultContainer = document.getElementById('resultContainer');
+        const downloadButton = document.getElementById('downloadButton');
+        
+        let files = [];
+        let mergedPdfBlob = null;
+        
+        // Función para actualizar la lista de archivos
+        function updateFileList() {
+            fileList.innerHTML = '';
+            
+            if (files.length === 0) {
+                fileList.appendChild(noFilesMessage);
+                mergeButton.disabled = true;
+                return;
+            }
+            
+            mergeButton.disabled = false;
+            
+            files.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                const fileIcon = document.createElement('span');
+                fileIcon.innerHTML = '📄';
+                fileItem.appendChild(fileIcon);
+                
+                const fileName = document.createElement('div');
+                fileName.className = 'file-name';
+                fileName.textContent = file.name;
+                fileItem.appendChild(fileName);
+                
+                const fileActions = document.createElement('div');
+                fileActions.className = 'file-actions';
+                
+                if (index > 0) {
+                    const moveUpButton = document.createElement('button');
+                    moveUpButton.className = 'move';
+                    moveUpButton.textContent = '↑';
+                    moveUpButton.title = 'Mover arriba';
+                    moveUpButton.onclick = () => moveFile(index, index - 1);
+                    fileActions.appendChild(moveUpButton);
+                }
+                
+                if (index < files.length - 1) {
+                    const moveDownButton = document.createElement('button');
+                    moveDownButton.className = 'move';
+                    moveDownButton.textContent = '↓';
+                    moveDownButton.title = 'Mover abajo';
+                    moveDownButton.onclick = () => moveFile(index, index + 1);
+                    fileActions.appendChild(moveDownButton);
+                }
+                
+                const removeButton = document.createElement('button');
+                removeButton.className = 'remove';
+                removeButton.textContent = '✖';
+                removeButton.title = 'Eliminar';
+                removeButton.onclick = () => removeFile(index);
+                fileActions.appendChild(removeButton);
+                
+                fileItem.appendChild(fileActions);
+                fileList.appendChild(fileItem);
+            });
+        }
+        
+        // Mover archivos en la lista
+        function moveFile(oldIndex, newIndex) {
+            const file = files[oldIndex];
+            files.splice(oldIndex, 1);
+            files.splice(newIndex, 0, file);
+            updateFileList();
+        }
+        
+        // Eliminar archivo
+        function removeFile(index) {
+            files.splice(index, 1);
+            updateFileList();
+        }
+        
+        // Manejar selección de archivos
+        fileInput.addEventListener('change', (e) => {
+            const newFiles = Array.from(e.target.files).filter(file => file.type === 'application/pdf');
+            if (newFiles.length > 0) {
+                files = [...files, ...newFiles];
+                updateFileList();
+                fileInput.value = '';
+                // Ocultar el contenedor de resultados si está visible
+                resultContainer.classList.remove('visible');
+            }
+        });
+        
+        selectFilesButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        // Manejar drag & drop
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+        
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
+        
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            
+            const newFiles = Array.from(e.dataTransfer.files).filter(file => file.type === 'application/pdf');
+            if (newFiles.length > 0) {
+                files = [...files, ...newFiles];
+                updateFileList();
+                // Ocultar el contenedor de resultados si está visible
+                resultContainer.classList.remove('visible');
+            }
+        });
+        
+        // Función para unir PDFs
+        mergeButton.addEventListener('click', async () => {
+            if (files.length === 0) return;
+            
+            try {
+                mergeButton.disabled = true;
+                mergeButton.textContent = 'Procesando...';
+                
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+                
+                for (const file of files) {
+                    const fileData = await readFileAsArrayBuffer(file);
+                    const pdfDoc = await PDFDocument.load(fileData);
+                    const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                    copiedPages.forEach(page => mergedPdf.addPage(page));
+                }
+                
+                const mergedPdfBytes = await mergedPdf.save();
+                mergedPdfBlob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+                
+                // Mostrar el contenedor de resultados con el botón de descarga
+                resultContainer.classList.add('visible');
+                
+                mergeButton.textContent = 'Unir PDFs';
+                mergeButton.disabled = false;
+            } catch (error) {
+                console.error('Error al unir PDFs:', error);
+                alert('Error al unir los PDFs. Por favor, intenta de nuevo con archivos válidos.');
+                mergeButton.textContent = 'Unir PDFs';
+                mergeButton.disabled = false;
+            }
+        });
+        
+        // Manejar la descarga del PDF
+        downloadButton.addEventListener('click', () => {
+            if (mergedPdfBlob) {
+                saveAs(mergedPdfBlob, 'documentos-unidos.pdf');
+            }
+        });
+        
+        // Función auxiliar para leer archivos
+        function readFileAsArrayBuffer(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsArrayBuffer(file);
+            });
+        }
+        
+        // Inicializar la lista de archivos
+        updateFileList();
+    </script>
+</body>
+</html>

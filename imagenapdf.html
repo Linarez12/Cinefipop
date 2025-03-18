@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Imágenes a PDF</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f9f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #3e5d3e;
+        }
+
+        .upload-section {
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #a5d6a7;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background-color: #f1f8e9;
+            margin-bottom: 25px;
+        }
+
+        .upload-section:hover {
+            border-color: #2e7d32;
+        }
+
+        .custom-file-input {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .custom-file-input input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-input-label {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #43a047;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .file-input-label:hover {
+            background-color: #2e7d32;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .images-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .image-container {
+            position: relative;
+            width: 150px;
+            margin-bottom: 15px;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #c8e6c9;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #f44336;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .image-order {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+        }
+
+        .options-section {
+            margin: 25px 0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #43a047;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+            width: 80px;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+            width: 150px;
+        }
+
+        .orientation-toggle {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .orientation-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .orientation-icon {
+            width: 40px;
+            height: 56px;
+            border: 2px solid #c8e6c9;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .orientation-icon.landscape {
+            width: 56px;
+            height: 40px;
+        }
+
+        .orientation-icon.selected {
+            border-color: #43a047;
+            background-color: #e8f5e9;
+        }
+
+        .orientation-icon::before {
+            content: "";
+            display: block;
+            width: 70%;
+            height: 70%;
+            background-color: #c8e6c9;
+            transition: all 0.3s ease;
+        }
+
+        .orientation-icon.selected::before {
+            background-color: #43a047;
+        }
+
+        label {
+            color: #2e7d32;
+            font-weight: 500;
+        }
+
+        button {
+            padding: 12px 22px;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #2e7d32;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #43a047;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s ease;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            line-height: 20px;
+        }
+
+        .loading {
+            display: none;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #43a047;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .download-section {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            display: none;
+            border: 1px solid #c8e6c9;
+        }
+
+        .download-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .download-button:hover {
+            background-color: #388e3c;
+        }
+
+        .reorder-controls {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .reorder-button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .image-orientation-control {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2196F3;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            line-height: 24px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Convertidor de Imágenes a PDF</h1>
+        <p>Sube imágenes y conviértelas en un documento PDF. Puedes reorganizar las imágenes y ajustar la calidad.</p>
+        
+        <div class="upload-section">
+            <div class="custom-file-input">
+                <input type="file" id="imageInput" accept="image/*" multiple onchange="handleImageUpload()">
+                <label for="imageInput" class="file-input-label">Seleccionar imágenes</label>
+            </div>
+            <div id="fileName" class="file-name">No se han seleccionado archivos</div>
+        </div>
+
+        <div id="imagesPreview" class="images-preview"></div>
+        
+        <div id="reorderControls" class="reorder-controls" style="display: none;">
+            <button class="reorder-button" onclick="moveImageUp()">↑ Subir</button>
+            <button class="reorder-button" onclick="moveImageDown()">↓ Bajar</button>
+        </div>
+
+        <div class="options-section">
+            <h3 style="text-align: center;">Opciones de PDF</h3>
+            
+            <div class="options">
+                <div class="option-row">
+                    <label for="pdfName">Nombre del archivo PDF:</label>
+                    <input type="text" id="pdfName" value="documento" style="width: 200px;">
+                </div>
+                
+                <div class="option-row">
+                    <label for="pageSize">Tamaño de página:</label>
+                    <select id="pageSize">
+                        <option value="a4">A4</option>
+                        <option value="letter">Carta</option>
+                        <option value="legal">Legal</option>
+                    </select>
+                </div>
+                
+                <div class="option-row">
+                    <label>Orientación:</label>
+                    <div class="orientation-toggle">
+                        <div class="orientation-option" onclick="selectOrientation('portrait')">
+                            <div id="portrait-icon" class="orientation-icon selected"></div>
+                            <span>Vertical</span>
+                        </div>
+                        <div class="orientation-option" onclick="selectOrientation('landscape')">
+                            <div id="landscape-icon" class="orientation-icon landscape"></div>
+                            <span>Horizontal</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="option-row">
+                    <label for="imageQuality">Calidad de imagen:</label>
+                    <select id="imageQuality">
+                        <option value="high">Alta</option>
+                        <option value="medium" selected>Media</option>
+                        <option value="low">Baja</option>
+                    </select>
+                </div>
+                
+                <div class="option-row">
+                    <input type="checkbox" id="fitToPage" checked>
+                    <label for="fitToPage">Ajustar imágenes a la página</label>
+                </div>
+                
+                <div class="option-row">
+                    <input type="checkbox" id="autoOrientation">
+                    <label for="autoOrientation">Orientación automática por imagen</label>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="createPDF()">Crear PDF</button>
+            </div>
+        </div>
+
+        <div id="progressContainer" class="progress-container">
+            <div id="progressBar" class="progress-bar">0%</div>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Procesando imágenes y creando PDF...</p>
+        </div>
+
+        <div id="downloadSection" class="download-section"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <script>
+        let uploadedImages = [];
+        let selectedImageIndex = -1;
+        let pageOrientation = 'portrait'; // Default orientation
+        
+        function handleImageUpload() {
+            const fileInput = document.getElementById('imageInput');
+            const fileNameElement = document.getElementById('fileName');
+            const imagesPreview = document.getElementById('imagesPreview');
+            
+            if (fileInput.files.length > 0) {
+                fileNameElement.textContent = `${fileInput.files.length} archivo(s) seleccionado(s)`;
+                
+                // Convertir FileList a array y añadir al array existente
+                const newFiles = Array.from(fileInput.files);
+                
+                // Procesar cada imagen nueva
+                newFiles.forEach(file => {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const imageData = {
+                            file: file,
+                            src: e.target.result,
+                            name: file.name,
+                            orientation: 'auto' // Orientación específica para esta imagen (será determinada automáticamente)
+                        };
+                        
+                        // Detectar la orientación natural de la imagen
+                        const img = new Image();
+                        img.onload = function() {
+                            // Si el ancho es mayor que el alto, marcar como horizontal
+                            if (img.width > img.height) {
+                                imageData.orientation = 'landscape';
+                            } else {
+                                imageData.orientation = 'portrait';
+                            }
+                            uploadedImages.push(imageData);
+                            updateImagesPreview();
+                        };
+                        img.src = e.target.result;
+                    };
+                    
+                    reader.readAsDataURL(file);
+                });
+                
+                document.getElementById('reorderControls').style.display = 'flex';
+                document.getElementById('downloadSection').style.display = 'none';
+            } else {
+                fileNameElement.textContent = 'No se han seleccionado archivos';
+            }
+        }
+        
+        function updateImagesPreview() {
+            const imagesPreview = document.getElementById('imagesPreview');
+            imagesPreview.innerHTML = '';
+            
+            uploadedImages.forEach((image, index) => {
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'image-container';
+                imageContainer.onclick = () => selectImage(index);
+                
+                if (index === selectedImageIndex) {
+                    imageContainer.style.border = '3px solid #43a047';
+                    imageContainer.style.borderRadius = '8px';
+                }
+                
+                const img = document.createElement('img');
+                img.src = image.src;
+                img.className = 'image-preview';
+                img.alt = image.name;
+                
+                const removeButton = document.createElement('div');
+                removeButton.className = 'remove-image';
+                removeButton.innerHTML = '×';
+                removeButton.onclick = (e) => {
+                    e.stopPropagation();
+                    removeImage(index);
+                };
+                
+                const orderLabel = document.createElement('div');
+                orderLabel.className = 'image-order';
+                orderLabel.textContent = index + 1;
+                
+                // Icono de orientación
+                const orientationIcon = document.createElement('div');
+                orientationIcon.className = 'image-orientation-control';
+                orientationIcon.title = 'Cambiar orientación de esta imagen';
+                orientationIcon.innerHTML = image.orientation === 'landscape' ? '↔' : '↕';
+                orientationIcon.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleImageOrientation(index);
+                };
+                
+                imageContainer.appendChild(img);
+                imageContainer.appendChild(removeButton);
+                imageContainer.appendChild(orderLabel);
+                imageContainer.appendChild(orientationIcon);
+                imagesPreview.appendChild(imageContainer);
+            });
+        }
+        
+        function toggleImageOrientation(index) {
+            if (uploadedImages[index].orientation === 'landscape') {
+                uploadedImages[index].orientation = 'portrait';
+            } else {
+                uploadedImages[index].orientation = 'landscape';
+            }
+            updateImagesPreview();
+        }
+        
+        function selectImage(index) {
+            selectedImageIndex = index;
+            updateImagesPreview();
+        }
+        
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            
+            if (selectedImageIndex === index) {
+                selectedImageIndex = -1;
+            } else if (selectedImageIndex > index) {
+                selectedImageIndex--;
+            }
+            
+            if (uploadedImages.length === 0) {
+                document.getElementById('reorderControls').style.display = 'none';
+            }
+            
+            updateImagesPreview();
+        }
+        
+        function moveImageUp() {
+            if (selectedImageIndex > 0 && selectedImageIndex < uploadedImages.length) {
+                const temp = uploadedImages[selectedImageIndex];
+                uploadedImages[selectedImageIndex] = uploadedImages[selectedImageIndex - 1];
+                uploadedImages[selectedImageIndex - 1] = temp;
+                selectedImageIndex--;
+                updateImagesPreview();
+            }
+        }
+        
+        function moveImageDown() {
+            if (selectedImageIndex >= 0 && selectedImageIndex < uploadedImages.length - 1) {
+                const temp = uploadedImages[selectedImageIndex];
+                uploadedImages[selectedImageIndex] = uploadedImages[selectedImageIndex + 1];
+                uploadedImages[selectedImageIndex + 1] = temp;
+                selectedImageIndex++;
+                updateImagesPreview();
+            }
+        }
+        
+        function selectOrientation(orientation) {
+            pageOrientation = orientation;
+            
+            // Actualizar estilo de los botones de orientación
+            document.getElementById('portrait-icon').classList.toggle('selected', orientation === 'portrait');
+            document.getElementById('landscape-icon').classList.toggle('selected', orientation === 'landscape');
+        }
+        
+        async function createPDF() {
+            if (uploadedImages.length === 0) {
+                alert('Por favor, sube al menos una imagen.');
+                return;
+            }
+            
+            // Obtener opciones
+            const pdfName = document.getElementById('pdfName').value || 'documento';
+            const pageSize = document.getElementById('pageSize').value;
+            const imageQuality = document.getElementById('imageQuality').value;
+            const fitToPage = document.getElementById('fitToPage').checked;
+            const autoOrientation = document.getElementById('autoOrientation').checked;
+            
+            // Mostrar progreso
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const loading = document.getElementById('loading');
+            
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressBar.textContent = '0%';
+            loading.style.display = 'block';
+            
+            try {
+                // Crear nuevo documento PDF
+                const { PDFDocument, PageSizes } = PDFLib;
+                const pdfDoc = await PDFDocument.create();
+                
+                // Determinar el tamaño de página base
+                let basePageSize;
+                
+                switch (pageSize) {
+                    case 'letter':
+                        basePageSize = PageSizes.Letter;
+                        break;
+                    case 'legal':
+                        basePageSize = PageSizes.Legal;
+                        break;
+                    default:
+                        basePageSize = PageSizes.A4;
+                }
+                
+                // Calidad de imagen
+                let compressionFactor;
+                switch (imageQuality) {
+                    case 'high':
+                        compressionFactor = 0.9;
+                        break;
+                    case 'low':
+                        compressionFactor = 0.5;
+                        break;
+                    default:
+                        compressionFactor = 0.7;
+                }
+                
+                // Procesar cada imagen
+                for (let i = 0; i < uploadedImages.length; i++) {
+                    const imageData = uploadedImages[i];
+                    
+                    // Determinar la orientación para esta página
+                    let currentOrientation;
+                    
+                    if (autoOrientation) {
+                        // Usar la orientación específica de la imagen
+                        currentOrientation = imageData.orientation;
+                    } else {
+                        // Usar la orientación global
+                        currentOrientation = pageOrientation;
+                    }
+                    
+                    // Aplicar orientación al tamaño de página
+                    let [pageWidth, pageHeight] = basePageSize;
+                    if (currentOrientation === 'landscape') {
+                        // Intercambiar ancho y alto para orientación horizontal
+                        [pageWidth, pageHeight] = [pageHeight, pageWidth];
+                    }
+                    
+                    // Crear la página con la orientación correcta
+                    const page = pdfDoc.addPage([pageWidth, pageHeight]);
+                    
+                    // Obtener la imagen como Uint8Array
+                    const imgBytes = await fetchImageAsBytes(imageData.src);
+                    
+                    // Determinar el formato de la imagen
+                    let embeddedImage;
+                    if (imageData.file.type === 'image/jpeg' || imageData.file.type === 'image/jpg') {
+                        embeddedImage = await pdfDoc.embedJpg(imgBytes);
+                    } else if (imageData.file.type === 'image/png') {
+                        embeddedImage = await pdfDoc.embedPng(imgBytes);
+                    } else {
+                        // Convertir a PNG por defecto
+                        embeddedImage = await pdfDoc.embedPng(imgBytes);
+                    }
+                    
+                    // Dimensiones de la imagen
+                    const imgDims = embeddedImage.scale(1);
+                    
+                    // Calcular dimensiones para ajustar a página
+                    let imgWidth = imgDims.width;
+                    let imgHeight = imgDims.height;
+                    
+                    if (fitToPage) {
+                        // Mantener la proporción y ajustar al tamaño de la página
+                        const pageRatio = pageWidth / pageHeight;
+                        const imgRatio = imgWidth / imgHeight;
+                        
+                        if (imgRatio > pageRatio) {
+                            // Imagen más ancha que alta en comparación con la página
+                            imgWidth = pageWidth - 40; // Margen de 20px en cada lado
+                            imgHeight = imgWidth / imgRatio;
+                        } else {
+                            // Imagen más alta que ancha en comparación con la página
+                            imgHeight = pageHeight - 40; // Margen de 20px arriba y abajo
+                            imgWidth = imgHeight * imgRatio;
+                        }
+                    }
+                    
+                    // Centrar la imagen en la página
+                    const x = (pageWidth - imgWidth) / 2;
+                    const y = (pageHeight - imgHeight) / 2;
+                    
+                    // Dibujar la imagen
+                    page.drawImage(embeddedImage, {
+                        x: x,
+                        y: y,
+                        width: imgWidth,
+                        height: imgHeight
+                    });
+                    
+                    // Actualizar progreso
+                    const percentage = Math.round(((i + 1) / uploadedImages.length) * 100);
+                    progressBar.style.width = `${percentage}%`;
+                    progressBar.textContent = `${percentage}%`;
+                    
+                    // Dar tiempo para que se actualice la UI
+                    await new Promise(resolve => setTimeout(resolve, 10));
+                }
+                
+                // Guardar el PDF
+                const pdfBytes = await pdfDoc.save();
+                
+                // Mostrar el botón de descarga
+                const downloadSection = document.getElementById('downloadSection');
+                const fileName = `${pdfName}.pdf`;
+                const url = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+                
+                downloadSection.innerHTML = `
+                    <p>PDF creado con éxito con ${uploadedImages.length} imagen(es).</p>
+                    <a href="${url}" download="${fileName}" class="download-button">Descargar PDF</a>
+                `;
+                downloadSection.style.display = 'block';
+                
+            } catch (error) {
+                alert('Error al crear el PDF: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+        
+        async function fetchImageAsBytes(dataUrl) {
+            // Extraer los datos de la URL base64
+            const base64Data = dataUrl.split(',')[1];
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            
+            return new Uint8Array(byteNumbers);
+        }
+    </script>
+</body>
+</html>
